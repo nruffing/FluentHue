@@ -19,7 +19,7 @@ namespace FluentHue
     {
         private const string BridgeDiscoveryUrl = "https://discovery.meethue.com";
         
-        internal static IRestClient DiscoveryClient = new RestClient(BridgeDiscoveryUrl);
+        internal static IRestClient DiscoveryClient = Client.CreateRestClient(BridgeDiscoveryUrl);
 
         /// <summary>
         /// Asynchronously retrieves the first Hue bridge found on the local network. This is intended to be 
