@@ -55,7 +55,7 @@ namespace FluentHue
                 throw new Exception("There was an error finding a Hue bridge on the local network");
             }
 
-            if (response.Data?.Any() ?? false == false)
+            if ((response.Data?.Any() ?? false) == false)
             {
                 throw new HueBridgeNotFoundException();
             }
