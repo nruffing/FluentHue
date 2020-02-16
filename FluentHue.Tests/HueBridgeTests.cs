@@ -1,6 +1,7 @@
 ﻿namespace FluentHue.Tests
 {
     using FluentHue.Contracts;
+    using GenFu.ValueGenerators.Internet;
     using NUnit.Framework;
     using System;
 
@@ -16,14 +17,14 @@
             => Assert.Throws<ArgumentNullException>(() => new HueBridge(new HueBridgeMetadata()
             {
                 Id = null,
-                InternalIpAddress = "192.168.1.1",
+                InternalIpAddress = NetworkAddress.IPAddress(),
             }));
 
         [Test]
         public void Construction_Metadata_NullIp()
             => Assert.Throws<ArgumentNullException>(() => new HueBridge(new HueBridgeMetadata()
             {
-                Id = "1234",
+                Id = Guid.NewGuid().ToString(),
                 InternalIpAddress = null,
             }));
 
@@ -34,7 +35,7 @@
             => Assert.Throws<ArgumentException>(() => new HueBridge(new HueBridgeMetadata()
             {
                 Id = id,
-                InternalIpAddress = "192.168.1.1",
+                InternalIpAddress = NetworkAddress.IPAddress(),
             }));
 
         [Test]
@@ -43,15 +44,15 @@
         public void Contruction_Metadata_InvalidIp(string ip)
             => Assert.Throws<ArgumentException>(() => new HueBridge(new HueBridgeMetadata()
             {
-                Id = "1234",
+                Id = Guid.NewGuid().ToString(),
                 InternalIpAddress = ip,
             }));
 
         [Test]
         public void Construction_Metadata()
         {
-            string id = "1234";
-            string ip = "192.168.1.1";
+            string id = Guid.NewGuid().ToString();
+            string ip = NetworkAddress.IPAddress();
 
             IHueBridge bridge = new HueBridge(new HueBridgeMetadata()
             {
@@ -67,7 +68,7 @@
         [Test]
         public void Construction_Ip()
         {
-            string ip = "192.168.1.1";
+            string ip = NetworkAddress.IPAddress();
 
             IHueBridge bridge = new HueBridge(ip);
             

@@ -2,9 +2,11 @@
 {
     using FluentHue.Contracts;
     using FluentHue.Serializers;
+    using GenFu.ValueGenerators.Internet;
     using NUnit.Framework;
     using RestSharp;
     using RestSharp.Serialization;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -14,8 +16,11 @@
         [Test]
         public void DeserializationTest()
         {
+            string id = Guid.NewGuid().ToString();
+            string ip = NetworkAddress.IPAddress();
+
             IRestResponse response = new RestResponse();
-            response.Content = "[{\"id\":\"001788fffe4c2912\",\"internalipaddress\":\"192.168.1.7\"}]";
+            response.Content = $"[{{\"id\":\"{id}\",\"internalipaddress\":\"{ip}\"}}]";
 
             IRestSerializer serializer = new JsonNetSerializer();
             var deserialized = serializer.Deserialize<IEnumerable<HueBridgeMetadata>>(response);
@@ -23,8 +28,8 @@
             Assert.AreEqual(1, deserialized.Count());
 
             var metadata = deserialized.First();
-            Assert.AreEqual("001788fffe4c2912", metadata.Id);
-            Assert.AreEqual("192.168.1.7", metadata.InternalIpAddress);
+            Assert.AreEqual(id, metadata.Id);
+            Assert.AreEqual(ip, metadata.InternalIpAddress);
         }
     }
 }
