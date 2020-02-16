@@ -30,7 +30,7 @@
         internal static IRestClient CreateRestClientForBridge(HueBridge bridge)
         {
             Requires.NotNull(bridge, nameof(bridge));
-            Requires.That(string.IsNullOrWhiteSpace(bridge.User), nameof(bridge.User), "A user must be specified using WithUser before any further communication with the Hue Bridge.");            
+            Requires.That(string.IsNullOrWhiteSpace(bridge.User) == false, nameof(bridge.User), "A user must be specified using WithUser before any further communication with the Hue Bridge.");            
             return Client.CreateRestClient(string.Format("http://{0}/api/{1}", bridge.LocalIpAddress, bridge.User));
         }
             

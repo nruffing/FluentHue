@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace FluentHue
+﻿namespace FluentHue
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    
     public interface IHueBridge
     {
         /// <summary>
