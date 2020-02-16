@@ -85,5 +85,37 @@
         [TestCase(" ")]
         public void Contruction_Ip_InvalidIp(string ip)
             => Assert.Throws<ArgumentException>(() => new HueBridge(ip));
+
+        [Test]
+        public void WithUser_Null()
+        {
+            HueBridge bridge = CreateMockBridge();
+            Assert.Throws<ArgumentNullException>(() => bridge.WithUser(null));
+        }
+
+        [Test]
+        [TestCase("")]
+        [TestCase(" ")]
+        public void WithUser_Invalid(string user)
+        {
+            HueBridge bridge = CreateMockBridge();
+            Assert.Throws<ArgumentException>(() => bridge.WithUser(user));
+        }
+
+        [Test]
+        public void WithUser()
+        {
+            string user = Guid.NewGuid().ToString();
+            HueBridge bridge = CreateMockBridge();
+            bridge.WithUser(user);
+            Assert.AreEqual(user, bridge.User);
+        }
+
+        private HueBridge CreateMockBridge()
+        {
+            var bridge = new HueBridge(NetworkAddress.IPAddress());
+            Assume.That(bridge != null);
+            return bridge;
+        }
     }
 }
