@@ -16,7 +16,7 @@
         internal static IRestClient CreateRestClient(string baseUrl)
         {
             IRestClient client = new RestClient(baseUrl);
-            client.UseSerializer(new JsonNetSerializer());
+            client.UseSerializer(() => new JsonNetSerializer());
             return client;
         }
     }

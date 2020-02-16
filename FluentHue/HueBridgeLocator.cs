@@ -49,7 +49,7 @@ namespace FluentHue
         {
             Requires.NotNull(DiscoveryClient, nameof(DiscoveryClient));
 
-            var response = await DiscoveryClient.ExecuteTaskAsync<IEnumerable<HueBridgeMetadata>>(new RestRequest(Method.GET)).ConfigureAwait(false);
+            var response = await DiscoveryClient.ExecuteAsync<IEnumerable<HueBridgeMetadata>>(new RestRequest(Method.GET)).ConfigureAwait(false);
             if (response.IsSuccessful == false)
             {
                 throw new Exception("There was an error finding a Hue bridge on the local network");
