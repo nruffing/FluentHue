@@ -1,7 +1,11 @@
 ﻿namespace FluentHue
 {
     using FluentHue.Contracts;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+    using RestSharp;
     using System;
+    using System.Threading.Tasks;
     using Validation;
 
     /// <summary>
@@ -12,7 +16,7 @@
         /// <summary>
         /// The bridge this light is connected to.
         /// </summary>
-        private IHueBridge _bridge;
+        private HueBridge _bridge;
 
         /// <summary>
         /// Initializes a new <see cref="HueLight"/>.
@@ -20,7 +24,7 @@
         /// <param name="bridge">The bridge the light is connected to.</param>
         /// <param name="id">The id that the bridge identifies this light as.</param>
         /// <param name="metadata">The light's metadata.</param>
-        public HueLight(IHueBridge bridge, string id, HueLightMetadata metadata)
+        internal HueLight(HueBridge bridge, string id, HueLightMetadata metadata)
         {
             Requires.NotNull(bridge, nameof(bridge));
             Requires.NotNullOrWhiteSpace(id, nameof(id));
@@ -49,12 +53,29 @@
         public IHueBridge End() => this._bridge;
 
         /// <summary>
+        /// Asynchronously gets the current state of the light.
+        /// </summary>
+        /// <returns>The current state of the light.</returns>
+        public async Task<IHueLightState> GetCurrentStateAsync()
+        {
+            var response = await Client.CreateRestClientForBridge(this._bridge)
+                .ExecuteAsync(new RestRequest($"lights/{this.Id}"), Method.GET)
+                .ConfigureAwait(false);
+
+            if (response.IsSuccessful == false)
+            {
+                throw new Exception("There was an error retrieving the current state of a light.");
+            }
+
+            var jObject = JsonConvert.DeserializeObject<JObject>(response.Content);
+            return new HueLightState(JsonConvert.DeserializeObject<HueLightStateMetadata>(jObject.GetValue("state").ToString()));
+        }
+
+        /// <summary>
         /// Gets the current state of the light.
         /// </summary>
         /// <returns>The current state of the light.</returns>
         public IHueLightState GetCurrentState()
-        {
-            throw new NotImplementedException();
-        }
+            => this.GetCurrentStateAsync().Result;
     }
 }

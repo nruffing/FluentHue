@@ -29,10 +29,26 @@ async Task Main()
 		.SelectLight("Color-Bedroom")
 		.Dump();
 
-	// Get all lights - async
+	// Select light - async
 	var light = await bridge
 		.WithUser(hueUser)
 		.SelectLightAsync("Color-Bedroom")
 		.ConfigureAwait(false);
 	light.Dump();
+
+	// Get light state
+	HueBridgeLocator.SelectFirst()
+		.WithUser(hueUser)
+		.SelectLight("Color-Bedroom")
+		.GetCurrentState()
+		.Dump();
+
+	// Get light state - async
+	light = await bridge
+		.WithUser(hueUser)
+		.SelectLightAsync("Color-Bedroom")
+		.ConfigureAwait(false);
+	var state = await light.GetCurrentStateAsync()
+		.ConfigureAwait(false);
+	state.Dump();
 }

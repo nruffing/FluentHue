@@ -75,6 +75,11 @@
             var response = await Client.CreateRestClientForBridge(this)
                 .ExecuteAsync(new RestRequest("lights"), Method.GET);
 
+            if (response.IsSuccessful == false)
+            {
+                throw new Exception("There was an error retrieving all lights connected to a the bridge.");
+            }
+
             var jObject = JsonConvert.DeserializeObject<JObject>(response.Content);
             var lights = new List<HueLight>();
             foreach (JProperty light in (JToken)jObject)

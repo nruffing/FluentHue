@@ -134,7 +134,7 @@
             var bridge = CreateMockBridge()
                 .WithUser(Guid.NewGuid().ToString());
 
-            var expected = new HueLight(bridge, Guid.NewGuid().ToString(), new HueLightMetadata()
+            var expected = new HueLight((HueBridge)bridge, Guid.NewGuid().ToString(), new HueLightMetadata()
             {
                 Name = Guid.NewGuid().ToString(),
             });

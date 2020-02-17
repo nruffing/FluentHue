@@ -1,4 +1,6 @@
-﻿namespace FluentHue
+﻿using System.Threading.Tasks;
+
+namespace FluentHue
 {
     /// <summary>
     /// Represents a Philips Hue light bulb.
@@ -15,6 +17,12 @@
         /// </summary>
         /// <returns>The bridge.</returns>
         IHueBridge End();
+
+        /// <summary>
+        /// Asynchronously gets the current state of the light.
+        /// </summary>
+        /// <returns>The current state of the light.</returns>
+        Task<IHueLightState> GetCurrentStateAsync();
 
         /// <summary>
         /// Gets the current state of the light.
