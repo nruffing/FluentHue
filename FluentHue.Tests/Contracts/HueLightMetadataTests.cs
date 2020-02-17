@@ -1,16 +1,12 @@
-﻿using FluentHue.Contracts;
-using FluentHue.Serializers;
-using NUnit.Framework;
-using RestSharp;
-using RestSharp.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FluentHue.Tests.Contracts
+﻿namespace FluentHue.Tests.Contracts
 {
-    [TestFixture]
-    public sealed class HueLightMetadataTests
+    using FluentHue.Contracts;
+    using FluentHue.Serializers;
+    using NUnit.Framework;
+    using RestSharp;
+    using RestSharp.Serialization;
+    
+    public sealed class HueLightMetadataTests : TestBase
     {
         /* 
             {

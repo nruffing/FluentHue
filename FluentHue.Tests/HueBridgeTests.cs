@@ -5,8 +5,7 @@
     using NUnit.Framework;
     using System;
 
-    [TestFixture]
-    public sealed class HueBridgeTests
+    public sealed class HueBridgeTests : TestBase
     {
         [Test]
         public void Construction_NullMetadata()

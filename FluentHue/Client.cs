@@ -2,6 +2,7 @@
 {
     using FluentHue.Serializers;
     using RestSharp;
+    using System;
     using Validation;
 
     /// <summary>
@@ -16,7 +17,8 @@
         /// <returns>An <see cref="IRestClient"/>.</returns>
         internal static IRestClient CreateRestClient(string baseUrl)
         {
-            IRestClient client = new RestClient(baseUrl);
+            IRestClient client = Container.Instance.GetInstance<IRestClient>();
+            client.BaseUrl = new Uri(baseUrl);
             client.UseSerializer(() => new JsonNetSerializer());
             return client;
         }
@@ -32,7 +34,6 @@
             Requires.NotNull(bridge, nameof(bridge));
             Requires.That(string.IsNullOrWhiteSpace(bridge.User) == false, nameof(bridge.User), "A user must be specified using WithUser before any further communication with the Hue Bridge.");            
             return Client.CreateRestClient(string.Format("http://{0}/api/{1}", bridge.LocalIpAddress, bridge.User));
-        }
-            
+        }            
     }
 }

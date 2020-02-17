@@ -1,7 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("FluentHue.Tests")]
-namespace FluentHue
+﻿namespace FluentHue
 {
     using FluentHue.Contracts;
     using FluentHue.Exceptions;
@@ -10,7 +7,6 @@ namespace FluentHue
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Validation;
 
     /// <summary>
     /// A collection of static methods for accessing an <see cref="IHueBridge"/>.
@@ -19,8 +15,6 @@ namespace FluentHue
     {
         private const string BridgeDiscoveryUrl = "https://discovery.meethue.com";
         
-        internal static IRestClient DiscoveryClient = Client.CreateRestClient(BridgeDiscoveryUrl);
-
         /// <summary>
         /// Asynchronously retrieves the first Hue bridge found on the local network. This is intended to be 
         /// an efficiency when you know there is only one bridge on the local network.
@@ -47,9 +41,8 @@ namespace FluentHue
 
         private static async Task<IEnumerable<HueBridgeMetadata>> FindBridgesAsync()
         {
-            Requires.NotNull(DiscoveryClient, nameof(DiscoveryClient));
-
-            var response = await DiscoveryClient.ExecuteAsync<IEnumerable<HueBridgeMetadata>>(new RestRequest(Method.GET)).ConfigureAwait(false);
+            var response = await Client.CreateRestClient(BridgeDiscoveryUrl)
+                .ExecuteAsync<IEnumerable<HueBridgeMetadata>>(new RestRequest(Method.GET)).ConfigureAwait(false);
             if (response.IsSuccessful == false)
             {
                 throw new Exception("There was an error finding a Hue bridge on the local network");

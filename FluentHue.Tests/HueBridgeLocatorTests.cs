@@ -13,14 +13,12 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    [TestFixture]
-    public sealed class HueBridgeLocatorTests
+    public sealed class HueBridgeLocatorTests : TestBase
     {
         [Test]
         public void SelectFirst_RequestNotSuccessful()
         {
-            HueBridgeLocator.DiscoveryClient = Mock.Of<IRestClient>();
-            Mock.Get(HueBridgeLocator.DiscoveryClient)
+            Mock.Get(Client)
                 .Setup(c => c.ExecuteAsync<IEnumerable<HueBridgeMetadata>>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult<IRestResponse<IEnumerable<HueBridgeMetadata>>>(
                     new RestResponse<IEnumerable<HueBridgeMetadata>>()
@@ -39,8 +37,7 @@
         [Test]
         public void SelectFirst_HueBridgeNotFound()
         {
-            HueBridgeLocator.DiscoveryClient = Mock.Of<IRestClient>();
-            Mock.Get(HueBridgeLocator.DiscoveryClient)
+            Mock.Get(Client)
                 .Setup(c => c.ExecuteAsync<IEnumerable<HueBridgeMetadata>>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult<IRestResponse<IEnumerable<HueBridgeMetadata>>>(
                     new RestResponse<IEnumerable<HueBridgeMetadata>>()
@@ -76,8 +73,7 @@
 
             var expected = new HueBridge(data.First());
 
-            HueBridgeLocator.DiscoveryClient = Mock.Of<IRestClient>();
-            Mock.Get(HueBridgeLocator.DiscoveryClient)
+            Mock.Get(Client)
                 .Setup(c => c.ExecuteAsync<IEnumerable<HueBridgeMetadata>>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult<IRestResponse<IEnumerable<HueBridgeMetadata>>>(
                     new RestResponse<IEnumerable<HueBridgeMetadata>>()

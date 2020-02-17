@@ -10,8 +10,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    [TestFixture]
-    public sealed class HueBridgeMetadataTests
+    public sealed class HueBridgeMetadataTests : TestBase
     {
         [Test]
         public void DeserializationTest()
