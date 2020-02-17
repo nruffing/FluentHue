@@ -6,6 +6,7 @@
     using RestSharp;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Validation;
 
@@ -96,9 +97,18 @@
         /// </summary>
         /// <param name="name">The name of the light to select.</param>
         /// <returns>The light with the specified name.</returns>
-        public IHueLight SelectLight(string name)
+        public async Task<IHueLight> SelectLightAsync(string name)
         {
-            throw new NotImplementedException();
+            var lights = await this.GetAllLightsAsync().ConfigureAwait(false);
+            return lights.First(l => l.Name == name);
         }
+
+        /// <summary>
+        /// Selects the light with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the light to select.</param>
+        /// <returns>The light with the specified name.</returns>
+        public IHueLight SelectLight(string name)
+            => this.SelectLightAsync(name).Result;
     }
 }

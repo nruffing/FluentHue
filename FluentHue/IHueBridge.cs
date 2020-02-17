@@ -36,6 +36,13 @@
         IEnumerable<IHueLight> GetAllLights();
 
         /// <summary>
+        /// Asynchronously selects the light with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the light to select.</param>
+        /// <returns>The light with the specified name.</returns>
+        Task<IHueLight> SelectLightAsync(string name);
+
+        /// <summary>
         /// Selects the light with the specified name.
         /// </summary>
         /// <param name="name">The name of the light to select.</param>
