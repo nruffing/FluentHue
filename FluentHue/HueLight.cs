@@ -15,11 +15,6 @@
         private IHueBridge _bridge;
 
         /// <summary>
-        /// The id that will be used to identify this light bulb when communicating with the bridge.
-        /// </summary>
-        private string _id;
-
-        /// <summary>
         /// Initializes a new <see cref="HueLight"/>.
         /// </summary>
         /// <param name="bridge">The bridge the light is connected to.</param>
@@ -32,21 +27,26 @@
             Requires.NotNull(metadata, nameof(metadata));
 
             this._bridge = bridge;
-            this._id = id;
+            this.Id = id;
 
             this.Name = metadata.Name;
         }
+
+        /// <summary>
+        /// The id that will be used to identify this light bulb when communicating with the bridge.
+        /// </summary>
+        internal string Id { get; }
+        
+        /// <summary>
+        /// Gets the name of the light.
+        /// </summary>
+        public string Name { get; }
 
         /// <summary>
         /// Return to the bridge.
         /// </summary>
         /// <returns>The bridge.</returns>
         public IHueBridge End() => this._bridge;
-
-        /// <summary>
-        /// Gets the name of the light.
-        /// </summary>
-        public string Name { get; }
 
         /// <summary>
         /// Gets the current state of the light.

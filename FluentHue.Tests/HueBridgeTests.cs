@@ -2,8 +2,14 @@
 {
     using FluentHue.Contracts;
     using GenFu.ValueGenerators.Internet;
+    using Moq;
     using NUnit.Framework;
+    using RestSharp;
     using System;
+    using System.Linq;
+    using System.Net;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     public sealed class HueBridgeTests : TestBase
     {
@@ -108,6 +114,61 @@
             HueBridge bridge = CreateMockBridge();
             bridge.WithUser(user);
             Assert.AreEqual(user, bridge.User);
+        }
+
+        [Test]
+        public void GetAllLights_NoUserSet()
+        {
+            HueBridge bridge = CreateMockBridge();
+
+            Assert.Multiple(() =>
+            {
+                Assert.ThrowsAsync(typeof(ArgumentException), async () => await bridge.GetAllLightsAsync().ConfigureAwait(false));
+                Assert.Throws<AggregateException>(() => bridge.GetAllLights());
+            });
+        }
+
+        [Test]
+        public async Task GetAllLights()
+        {
+            var bridge = CreateMockBridge()
+                .WithUser(Guid.NewGuid().ToString());
+
+            var expected = new HueLight(bridge, Guid.NewGuid().ToString(), new HueLightMetadata()
+            {
+                Name = Guid.NewGuid().ToString(),
+            });
+
+            Mock.Get(Client)
+                .Setup(c => c.ExecuteAsync(
+                    It.IsAny<IRestRequest>(),
+                    It.IsAny<Method>(),
+                    It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult<IRestResponse>(
+                    new RestResponse()
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        ResponseStatus = ResponseStatus.Completed,
+                        Content = $"{{\"{expected.Id}\": {{\"name\": \"{expected.Name}\"}}}}",
+                    }));
+
+            var lights = await bridge.GetAllLightsAsync().ConfigureAwait(false);
+            Assert.NotNull(lights);
+            Assert.AreEqual(1, lights.Count());
+            var light = lights.First();
+            Assert.NotNull(light);
+            Assert.AreEqual(expected.Name, light.Name);
+            Assert.AreEqual(expected.Id, (light as HueLight).Id);
+            Assert.AreSame(bridge, light.End());
+
+            lights = bridge.GetAllLights();
+            Assert.NotNull(lights);
+            Assert.AreEqual(1, lights.Count());
+            light = lights.First();
+            Assert.NotNull(light);
+            Assert.AreEqual(expected.Name, light.Name);
+            Assert.AreEqual(expected.Id, (light as HueLight).Id);
+            Assert.AreSame(bridge, light.End());
         }
 
         private HueBridge CreateMockBridge()
