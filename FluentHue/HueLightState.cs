@@ -56,6 +56,28 @@
             => this.ToggleAsync().Result;
 
         /// <summary>
+        /// Asynchronously sets the state of light (i.e. on/off) to the specified value.
+        /// </summary>
+        /// <param name="isOn">Whether to set the state of the light to on, off otherwise.</param>
+        /// <returns>The current light state.</returns>
+        public Task<IHueLightState> SetStateAsync(bool isOn)
+        {
+            if (this.IsOn != isOn)
+            {
+                return this.ToggleAsync();
+            }
+            return Task.FromResult(this as IHueLightState);
+        }
+
+        /// <summary>
+        /// Sets the state of light (i.e. on/off) to the specified value.
+        /// </summary>
+        /// <param name="isOn">Whether to set the state of the light to on, off otherwise.</param>
+        /// <returns>The current light state.</returns>
+        public IHueLightState SetState(bool isOn)
+            => this.SetStateAsync(isOn).Result;
+
+        /// <summary>
         /// Asynchronously sets the brightness of the light to the specified level.
         /// </summary>
         /// <param name="brightness">The level of brightness to set. This must be within the
