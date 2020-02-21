@@ -5,7 +5,7 @@ namespace FluentHue
 {
     using RestSharp;
     
-    public static class Container
+    internal static class Container
     {
         internal static SimpleInjector.Container Instance { get; set; }
 
