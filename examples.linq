@@ -51,4 +51,12 @@ async Task Main()
 	var state = await light.GetCurrentStateAsync()
 		.ConfigureAwait(false);
 	state.Dump();
+	
+	// Toggle light state
+	HueBridgeLocator.SelectFirst()
+		.WithUser(hueUser)
+		.SelectLight("Color-Bedroom")
+		.GetCurrentState()
+			.Toggle()
+			.Dump();
 }

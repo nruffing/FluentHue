@@ -68,7 +68,10 @@
             }
 
             var jObject = JsonConvert.DeserializeObject<JObject>(response.Content);
-            return new HueLightState(JsonConvert.DeserializeObject<HueLightStateMetadata>(jObject.GetValue("state").ToString()));
+            return new HueLightState(
+                this._bridge,
+                this,
+                JsonConvert.DeserializeObject<HueLightStateMetadata>(jObject.GetValue("state").ToString()));
         }
 
         /// <summary>
