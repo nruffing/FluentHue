@@ -1,5 +1,6 @@
 ﻿namespace FluentHue.Tests
 {
+    using AutoMapper;
     using FluentHue.Contracts;
     using GenFu.ValueGenerators.Internet;
     using Moq;
@@ -45,5 +46,8 @@
             Assume.That(light != null);
             return light;
         }
+
+        protected IMapper GetMapper()
+            => Container.Instance.GetInstance<IMapper>();
     }
 }

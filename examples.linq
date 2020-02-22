@@ -39,7 +39,7 @@ async Task Main()
 	// Get light state
 	HueBridgeLocator.SelectFirst()
 		.WithUser(hueUser)
-		.SelectLight("Color-Bedroom")
+		.SelectLight("Bedroom-Closet")
 		.GetCurrentState()
 		.Dump();
 
@@ -59,5 +59,19 @@ async Task Main()
 		.GetCurrentState()
 			.Toggle()
 			.SetBrightness(150)
-			.Dump();
+			.SetColor(.5f, .5f)
+		.End()
+		.GetCurrentState()
+		.Dump();
+
+	HueBridgeLocator.SelectFirst()
+		.WithUser(hueUser)
+		.SelectLight("Bedroom-Closet")
+		.GetCurrentState()
+			.Toggle()
+			.SetBrightness(150)
+			.SetColor(.5f, .5f)
+		.End()
+		.GetCurrentState()
+		.Dump();
 }

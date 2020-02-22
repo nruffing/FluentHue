@@ -6,9 +6,9 @@
     public sealed class HueLightStateTests : TestBase
     {
         [Test]
-        public void Construction()
+        public void ContractMappingTest()
         {
-            var contract = new HueLightStateContract()
+            var expected = new HueLightStateContract()
             {
                 IsOn = this.GetRandomBool(),
                 Brightness = this.GetRandomByte(),
@@ -21,12 +21,18 @@
 
             var bridge = this.CreateMockBridge();
 
-            var state = new HueLightState(bridge, this.CreateMockLight(bridge), contract);
+            var state = new HueLightState(bridge, this.CreateMockLight(bridge), expected);
             Assert.NotNull(state);
-            Assert.AreEqual(contract.IsOn, state.IsOn);
-            Assert.AreEqual(contract.Brightness, state.Brightness);
-            Assert.AreEqual(contract.Color[0], state.ColorX);
-            Assert.AreEqual(contract.Color[1], state.ColorY);
+            Assert.AreEqual(expected.IsOn, state.IsOn);
+            Assert.AreEqual(expected.Brightness, state.Brightness);
+            Assert.AreEqual(expected.Color[0], state.ColorX);
+            Assert.AreEqual(expected.Color[1], state.ColorY);
+
+            var contract = this.GetMapper().Map<HueLightStateContract>(state);
+            Assert.NotNull(contract);
+            Assert.AreEqual(expected.IsOn, contract.IsOn);
+            Assert.AreEqual(expected.Brightness, contract.Brightness);
+            Assert.AreEqual(expected.Color, contract.Color);
         }
     }
 }

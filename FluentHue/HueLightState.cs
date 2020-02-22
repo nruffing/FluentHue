@@ -116,6 +116,38 @@
             => this.SetBrightnessAsync(brightness).Result;
 
         /// <summary>
+        /// Asynchronously sets the color of the light to specified color (using CIE xy color).
+        /// </summary>
+        /// <param name="x">The color's x coordinate. Must be between 0 and 1.</param>
+        /// <param name="y">The color's y coordinate. Must be between 0 and 1.</param>
+        /// <returns>The current light state.</returns>
+        public async Task<IHueLightState> SetColorAsync(float x, float y)
+        {
+            Requires.Range(
+                x >= 0 && x <= 1,
+                nameof(x),
+                "The color's x-coordinate must be withing the inclusive range of 0 to 1");
+            Requires.Range(
+                y >= 0 && y <= 1,
+                nameof(y),
+                "The color's y-coordinate must be withing the inclusive range of 0 to 1");
+
+            this.ColorX = x;
+            this.ColorY = y;
+            await this.SetStateAsync().ConfigureAwait(false);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the color of the light to specified color (using CIE xy color).
+        /// </summary>
+        /// <param name="x">The color's x coordinate. Must be between 0 and 1.</param>
+        /// <param name="y">The color's y coordinate. Must be between 0 and 1.</param>
+        /// <returns>The current light state.</returns>
+        public IHueLightState SetColor(float x, float y)
+            => this.SetColorAsync(x, y).Result;
+
+        /// <summary>
         /// Returns to the light.
         /// </summary>
         /// <returns>The light.</returns>

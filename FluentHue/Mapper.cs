@@ -9,8 +9,10 @@
         {
             cfg.CreateMap<HueLightStateContract, HueLightState>()
                 .ForMember(s => s.ColorX, s => s.MapFrom(c => c.Color != null && c.Color.Length > 1 ? c.Color[0] : 0))
-                .ForMember(s => s.ColorY, s => s.MapFrom(c => c.Color != null && c.Color.Length > 1 ? c.Color[1] : 0))
-                .ReverseMap();
+                .ForMember(s => s.ColorY, s => s.MapFrom(c => c.Color != null && c.Color.Length > 1 ? c.Color[1] : 0));
+
+            cfg.CreateMap<HueLightState, HueLightStateContract>()
+                .ForMember(s => s.Color, s => s.MapFrom(c => new float[] { c.ColorX, c.ColorY }));
         });
     }
 }
