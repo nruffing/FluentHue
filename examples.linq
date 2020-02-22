@@ -59,7 +59,7 @@ async Task Main()
 		.GetCurrentState()
 			.Toggle()
 			.SetBrightness(150)
-			.SetColor(.5f, .5f)
+			.SetColor(1f, 1f)
 		.End()
 		.GetCurrentState()
 		.Dump();
