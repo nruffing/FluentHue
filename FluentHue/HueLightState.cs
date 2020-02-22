@@ -1,5 +1,6 @@
 ﻿namespace FluentHue
 {
+    using AutoMapper;
     using FluentHue.Contracts;
     using RestSharp;
     using System;
@@ -9,22 +10,23 @@
     /// <summary>
     /// Represents the state of a Philips Hue light bulb.
     /// </summary>
+    [AutoMap(typeof(HueLightStateContract), ReverseMap = true)]
     public sealed class HueLightState : IHueLightState
     {
+        private readonly IMapper _mapper = Container.Instance.GetInstance<IMapper>();
         private readonly HueBridge _bridge;
         private readonly HueLight _light;
 
-        internal HueLightState(HueBridge bridge, HueLight light, HueLightStateMetadata metadata)
+        internal HueLightState(HueBridge bridge, HueLight light, HueLightStateContract contract)
         {
             Requires.NotNull(bridge, nameof(bridge));
             Requires.NotNull(light, nameof(light));
-            Requires.NotNull(metadata, nameof(metadata));
+            Requires.NotNull(contract, nameof(contract));
 
             this._bridge = bridge;
             this._light = light;
 
-            this.IsOn = metadata.On;
-            this.Brightness = metadata.Brightness;
+            _mapper.Map(contract, this, typeof(HueLightStateContract), typeof(HueLightState));
         }
 
         /// <summary>
@@ -113,7 +115,7 @@
         private async Task SetStateAsync()
         {
             var request = new RestRequest($"lights/{this._light.Id}/state");
-            request.AddJsonBody(this.ToContract());
+            request.AddJsonBody(_mapper.Map<HueLightStateContract>(this));
 
             var response = await Client.CreateRestClientForBridge(this._bridge)
                 .ExecuteAsync(request, Method.PUT)
@@ -124,12 +126,5 @@
                 throw new Exception("There was an error setting the state of a light.");
             }
         }
-
-        private HueLightStateMetadata ToContract()
-            => new HueLightStateMetadata()
-            {
-                On = this.IsOn,
-                Brightness = this.Brightness,
-            };
     }
 }

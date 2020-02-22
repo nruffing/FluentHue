@@ -15,24 +15,16 @@
     /// </summary>
     public sealed class HueBridge : IHueBridge
     {
-        /// <summary>
-        /// Initializes a new <see cref="HueBridge"/>.
-        /// </summary>
-        /// <param name="metadata">The metadata found during bridge discovery.</param>
-        internal HueBridge(HueBridgeMetadata metadata)
+        internal HueBridge(HueBridgeContract contract)
         {
-            Requires.NotNull(metadata, nameof(metadata));
-            Requires.NotNullOrWhiteSpace(metadata.Id, nameof(metadata.Id));
-            Requires.NotNullOrWhiteSpace(metadata.InternalIpAddress, nameof(metadata.InternalIpAddress));
+            Requires.NotNull(contract, nameof(contract));
+            Requires.NotNullOrWhiteSpace(contract.Id, nameof(contract.Id));
+            Requires.NotNullOrWhiteSpace(contract.InternalIpAddress, nameof(contract.InternalIpAddress));
 
-            this.Id = metadata.Id;
-            this.LocalIpAddress = metadata.InternalIpAddress;
+            this.Id = contract.Id;
+            this.LocalIpAddress = contract.InternalIpAddress;
         }
 
-        /// <summary>
-        /// Initializes a new <see cref="HueBridge"/>.
-        /// </summary>
-        /// <param name="localIpAddress">The private IP address of the bridge on its local network.</param>
         internal HueBridge(string localIpAddress)
         {
             Requires.NotNullOrWhiteSpace(localIpAddress, nameof(localIpAddress));
@@ -84,7 +76,7 @@
             var lights = new List<HueLight>();
             foreach (JProperty light in (JToken)jObject)
             {
-                lights.Add(new HueLight(this, light.Name, JsonConvert.DeserializeObject<HueLightMetadata>(light.Value.ToString())));
+                lights.Add(new HueLight(this, light.Name, JsonConvert.DeserializeObject<HueLightContract>(light.Value.ToString())));
             }
 
             return lights;

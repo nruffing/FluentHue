@@ -57,7 +57,7 @@ async Task Main()
 		.WithUser(hueUser)
 		.SelectLight("Color-Bedroom")
 		.GetCurrentState()
-			.SetState(true)
-			.SetBrightness(100)
+			.Toggle()
+			.SetBrightness(150)
 			.Dump();
 }

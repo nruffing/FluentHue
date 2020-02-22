@@ -39,10 +39,10 @@
         public static IHueBridge SelectWithLocalIp(string localIpAddress)
             => new HueBridge(localIpAddress);
 
-        private static async Task<IEnumerable<HueBridgeMetadata>> FindBridgesAsync()
+        private static async Task<IEnumerable<HueBridgeContract>> FindBridgesAsync()
         {
             var response = await Client.CreateRestClient(BridgeDiscoveryUrl)
-                .ExecuteAsync<IEnumerable<HueBridgeMetadata>>(new RestRequest(Method.GET)).ConfigureAwait(false);
+                .ExecuteAsync<IEnumerable<HueBridgeContract>>(new RestRequest(Method.GET)).ConfigureAwait(false);
             if (response.IsSuccessful == false)
             {
                 throw new Exception("There was an error finding a Hue bridge on the local network");

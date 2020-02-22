@@ -10,7 +10,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public sealed class HueBridgeMetadataTests : TestBase
+    public sealed class HueBridgeContractTests : TestBase
     {
         [Test]
         public void DeserializationTest()
@@ -22,13 +22,13 @@
             response.Content = $"[{{\"id\":\"{id}\",\"internalipaddress\":\"{ip}\"}}]";
 
             IRestSerializer serializer = new JsonNetSerializer();
-            var deserialized = serializer.Deserialize<IEnumerable<HueBridgeMetadata>>(response);
+            var deserialized = serializer.Deserialize<IEnumerable<HueBridgeContract>>(response);
             Assert.NotNull(deserialized);
             Assert.AreEqual(1, deserialized.Count());
 
-            var metadata = deserialized.First();
-            Assert.AreEqual(id, metadata.Id);
-            Assert.AreEqual(ip, metadata.InternalIpAddress);
+            var contract = deserialized.First();
+            Assert.AreEqual(id, contract.Id);
+            Assert.AreEqual(ip, contract.InternalIpAddress);
         }
     }
 }

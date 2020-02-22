@@ -3,12 +3,12 @@
 namespace FluentHue.Contracts
 {
     /// <summary>
-    /// Model containing metadata for a Philips Hue light bulb's state.
+    /// Model containing the state of a Philips Hue light bulb.
     /// </summary>
-    internal sealed class HueLightStateMetadata
+    internal sealed class HueLightStateContract
     {
         [JsonProperty("on")]
-        public bool On { get; set; }
+        public bool IsOn { get; set; }
 
         [JsonProperty("bri")]
         public byte Brightness { get; set; }

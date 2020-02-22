@@ -3,7 +3,7 @@
     /// <summary>
     /// Model containing metadata for a Phillips Hue bridge.
     /// </summary>
-    internal sealed class HueBridgeMetadata
+    internal sealed class HueBridgeContract
     {
         /// <summary>
         /// The id of the bridge (e.g. 001788fffe4c2912).

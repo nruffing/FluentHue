@@ -14,20 +14,20 @@
     public sealed class HueBridgeTests : TestBase
     {
         [Test]
-        public void Construction_NullMetadata()
-            => Assert.Throws<ArgumentNullException>(() => new HueBridge((HueBridgeMetadata)null));
+        public void Construction_NullContract()
+            => Assert.Throws<ArgumentNullException>(() => new HueBridge((HueBridgeContract)null));
 
         [Test]
-        public void Construction_Metadata_NullId()
-            => Assert.Throws<ArgumentNullException>(() => new HueBridge(new HueBridgeMetadata()
+        public void Construction_Contract_NullId()
+            => Assert.Throws<ArgumentNullException>(() => new HueBridge(new HueBridgeContract()
             {
                 Id = null,
                 InternalIpAddress = NetworkAddress.IPAddress(),
             }));
 
         [Test]
-        public void Construction_Metadata_NullIp()
-            => Assert.Throws<ArgumentNullException>(() => new HueBridge(new HueBridgeMetadata()
+        public void Construction_Contract_NullIp()
+            => Assert.Throws<ArgumentNullException>(() => new HueBridge(new HueBridgeContract()
             {
                 Id = Guid.NewGuid().ToString(),
                 InternalIpAddress = null,
@@ -36,8 +36,8 @@
         [Test]
         [TestCase("")]
         [TestCase(" ")]
-        public void Contruction_Metadata_InvalidId(string id)
-            => Assert.Throws<ArgumentException>(() => new HueBridge(new HueBridgeMetadata()
+        public void Contruction_Contract_InvalidId(string id)
+            => Assert.Throws<ArgumentException>(() => new HueBridge(new HueBridgeContract()
             {
                 Id = id,
                 InternalIpAddress = NetworkAddress.IPAddress(),
@@ -46,20 +46,20 @@
         [Test]
         [TestCase("")]
         [TestCase(" ")]
-        public void Contruction_Metadata_InvalidIp(string ip)
-            => Assert.Throws<ArgumentException>(() => new HueBridge(new HueBridgeMetadata()
+        public void Contruction_Contract_InvalidIp(string ip)
+            => Assert.Throws<ArgumentException>(() => new HueBridge(new HueBridgeContract()
             {
                 Id = Guid.NewGuid().ToString(),
                 InternalIpAddress = ip,
             }));
 
         [Test]
-        public void Construction_Metadata()
+        public void Construction_Contract()
         {
             string id = Guid.NewGuid().ToString();
             string ip = NetworkAddress.IPAddress();
 
-            IHueBridge bridge = new HueBridge(new HueBridgeMetadata()
+            IHueBridge bridge = new HueBridge(new HueBridgeContract()
             {
                 Id = id,
                 InternalIpAddress = ip,
@@ -134,7 +134,7 @@
             var bridge = CreateMockBridge()
                 .WithUser(Guid.NewGuid().ToString());
 
-            var expected = new HueLight((HueBridge)bridge, Guid.NewGuid().ToString(), new HueLightMetadata()
+            var expected = new HueLight((HueBridge)bridge, Guid.NewGuid().ToString(), new HueLightContract()
             {
                 Name = Guid.NewGuid().ToString(),
             });
@@ -169,13 +169,6 @@
             Assert.AreEqual(expected.Name, light.Name);
             Assert.AreEqual(expected.Id, (light as HueLight).Id);
             Assert.AreSame(bridge, light.End());
-        }
-
-        private HueBridge CreateMockBridge()
-        {
-            var bridge = new HueBridge(NetworkAddress.IPAddress());
-            Assume.That(bridge != null);
-            return bridge;
         }
     }
 }

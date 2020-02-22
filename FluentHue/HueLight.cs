@@ -13,27 +13,19 @@
     /// </summary>
     public sealed class HueLight : IHueLight
     {
-        /// <summary>
-        /// The bridge this light is connected to.
-        /// </summary>
         private HueBridge _bridge;
 
-        /// <summary>
-        /// Initializes a new <see cref="HueLight"/>.
-        /// </summary>
-        /// <param name="bridge">The bridge the light is connected to.</param>
-        /// <param name="id">The id that the bridge identifies this light as.</param>
-        /// <param name="metadata">The light's metadata.</param>
-        internal HueLight(HueBridge bridge, string id, HueLightMetadata metadata)
+        internal HueLight(HueBridge bridge, string id, HueLightContract contract)
         {
             Requires.NotNull(bridge, nameof(bridge));
             Requires.NotNullOrWhiteSpace(id, nameof(id));
-            Requires.NotNull(metadata, nameof(metadata));
+            Requires.NotNull(contract, nameof(contract));
+            Requires.NotNullOrWhiteSpace(contract.Name, nameof(contract.Name));
 
             this._bridge = bridge;
             this.Id = id;
 
-            this.Name = metadata.Name;
+            this.Name = contract.Name;
         }
 
         /// <summary>
@@ -71,7 +63,7 @@
             return new HueLightState(
                 this._bridge,
                 this,
-                JsonConvert.DeserializeObject<HueLightStateMetadata>(jObject.GetValue("state").ToString()));
+                JsonConvert.DeserializeObject<HueLightStateContract>(jObject.GetValue("state").ToString()));
         }
 
         /// <summary>

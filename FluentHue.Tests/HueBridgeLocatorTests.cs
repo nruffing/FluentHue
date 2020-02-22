@@ -19,9 +19,9 @@
         public void SelectFirst_RequestNotSuccessful()
         {
             Mock.Get(Client)
-                .Setup(c => c.ExecuteAsync<IEnumerable<HueBridgeMetadata>>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult<IRestResponse<IEnumerable<HueBridgeMetadata>>>(
-                    new RestResponse<IEnumerable<HueBridgeMetadata>>()
+                .Setup(c => c.ExecuteAsync<IEnumerable<HueBridgeContract>>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult<IRestResponse<IEnumerable<HueBridgeContract>>>(
+                    new RestResponse<IEnumerable<HueBridgeContract>>()
                     {
                         StatusCode = HttpStatusCode.InternalServerError,
                         ResponseStatus = ResponseStatus.Completed,
@@ -38,13 +38,13 @@
         public void SelectFirst_HueBridgeNotFound()
         {
             Mock.Get(Client)
-                .Setup(c => c.ExecuteAsync<IEnumerable<HueBridgeMetadata>>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult<IRestResponse<IEnumerable<HueBridgeMetadata>>>(
-                    new RestResponse<IEnumerable<HueBridgeMetadata>>()
+                .Setup(c => c.ExecuteAsync<IEnumerable<HueBridgeContract>>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult<IRestResponse<IEnumerable<HueBridgeContract>>>(
+                    new RestResponse<IEnumerable<HueBridgeContract>>()
                     {
                         StatusCode = HttpStatusCode.OK,
                         ResponseStatus = ResponseStatus.Completed,
-                        Data = new HueBridgeMetadata[0],
+                        Data = new HueBridgeContract[0],
                     }));
 
             Assert.Multiple(() =>
@@ -57,14 +57,14 @@
         [Test]
         public async Task SelectFirst_Successful()
         {
-            var data = new HueBridgeMetadata[]
+            var data = new HueBridgeContract[]
             {
-                new HueBridgeMetadata()
+                new HueBridgeContract()
                 {
                     Id = Guid.NewGuid().ToString(),
                     InternalIpAddress = NetworkAddress.IPAddress(),
                 },
-                new HueBridgeMetadata()
+                new HueBridgeContract()
                 {                    
                     Id = Guid.NewGuid().ToString(),
                     InternalIpAddress = NetworkAddress.IPAddress(),
@@ -74,9 +74,9 @@
             var expected = new HueBridge(data.First());
 
             Mock.Get(Client)
-                .Setup(c => c.ExecuteAsync<IEnumerable<HueBridgeMetadata>>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult<IRestResponse<IEnumerable<HueBridgeMetadata>>>(
-                    new RestResponse<IEnumerable<HueBridgeMetadata>>()
+                .Setup(c => c.ExecuteAsync<IEnumerable<HueBridgeContract>>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult<IRestResponse<IEnumerable<HueBridgeContract>>>(
+                    new RestResponse<IEnumerable<HueBridgeContract>>()
                     {
                         StatusCode = HttpStatusCode.OK,
                         ResponseStatus = ResponseStatus.Completed,
