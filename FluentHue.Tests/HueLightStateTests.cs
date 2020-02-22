@@ -12,6 +12,11 @@
             {
                 IsOn = this.GetRandomBool(),
                 Brightness = this.GetRandomByte(),
+                Color = new float[]
+                {
+                    GetRandomFloat(),
+                    GetRandomFloat()
+                }
             };
 
             var bridge = this.CreateMockBridge();
@@ -20,6 +25,8 @@
             Assert.NotNull(state);
             Assert.AreEqual(contract.IsOn, state.IsOn);
             Assert.AreEqual(contract.Brightness, state.Brightness);
+            Assert.AreEqual(contract.Color[0], state.ColorX);
+            Assert.AreEqual(contract.Color[1], state.ColorY);
         }
     }
 }

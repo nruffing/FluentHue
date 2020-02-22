@@ -10,7 +10,6 @@
     /// <summary>
     /// Represents the state of a Philips Hue light bulb.
     /// </summary>
-    [AutoMap(typeof(HueLightStateContract), ReverseMap = true)]
     public sealed class HueLightState : IHueLightState
     {
         private readonly IMapper _mapper = Container.Instance.GetInstance<IMapper>();
@@ -38,6 +37,16 @@
         /// Gets a value representing the brightness of the light on a scale of 1-254.
         /// </summary>
         public byte Brightness { get; private set; }
+
+        /// <summary>
+        /// Gets a value representing the color's x coordinate (using CIE xy color).
+        /// </summary>
+        public float ColorX { get; private set; }
+
+        /// <summary>
+        /// Gets a value representing the color's y coordinate (using CIE xy color).
+        /// </summary>
+        public float ColorY { get; private set; }
 
         /// <summary>
         /// Asynchronously toggles the current state of the light (e.g. off to on).

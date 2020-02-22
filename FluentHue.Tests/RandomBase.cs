@@ -11,5 +11,8 @@
 
         protected byte GetRandomByte()
             => (byte)this._rand.Next(1, 254);
+
+        protected float GetRandomFloat()
+            => (float)this._rand.NextDouble();
     }
 }

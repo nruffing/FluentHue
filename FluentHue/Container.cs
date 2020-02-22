@@ -5,7 +5,6 @@ namespace FluentHue
 {
     using AutoMapper;
     using RestSharp;
-    using System.Reflection;
 
     internal static class Container
     {
@@ -21,10 +20,7 @@ namespace FluentHue
             Instance = new SimpleInjector.Container();
 
             Instance.Register<IRestClient>(() => new RestClient(), SimpleInjector.Lifestyle.Transient);
-            Instance.Register<IMapper>(() => new AutoMapper.Mapper(new MapperConfiguration(cfg =>
-            {
-                cfg.AddMaps(Assembly.GetExecutingAssembly().FullName);
-            })), SimpleInjector.Lifestyle.Singleton);
+            Instance.Register<IMapper>(() => new AutoMapper.Mapper(Mapper.Config), SimpleInjector.Lifestyle.Singleton);
         }
     }
 }

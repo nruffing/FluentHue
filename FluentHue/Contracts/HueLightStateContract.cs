@@ -12,5 +12,8 @@ namespace FluentHue.Contracts
 
         [JsonProperty("bri")]
         public byte Brightness { get; set; }
+
+        [JsonProperty("xy")]
+        public float[] Color { get; set; }
     }
 }
