@@ -58,6 +58,31 @@
             return this;
         }
 
+        public async Task<IHueBridge> DiscoverNewLightsAsync(params string[] serialNumbers)
+        {
+            var request = new RestRequest("lights");
+            if (serialNumbers?.Any() ?? false)
+            {
+                request.AddJsonBody(new DiscoverNewHueLightsContract()
+                {
+                    SerialNumbers = serialNumbers,
+                });
+            }
+
+            var response = await Client.CreateRestClientForBridge(this)
+                .ExecuteAsync(request, Method.POST);
+
+            if (response.IsSuccessful == false)
+            {
+                throw new Exception("There was an error initiating the bridge to discover new lights.");
+            }
+
+            return this;
+        }
+
+        public IHueBridge DiscoverNewLights(params string[] serialNumbers)
+            => this.DiscoverNewLightsAsync(serialNumbers).Result;
+
         /// <summary>
         /// Asynchronously gets all lights connected to the bridge.
         /// </summary>
