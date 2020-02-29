@@ -36,13 +36,50 @@
         /// <summary>
         /// Gets the name of the light.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Return to the bridge.
         /// </summary>
         /// <returns>The bridge.</returns>
         public IHueBridge End() => this._bridge;
+
+        /// <summary>
+        /// Asynchronously renames the current light.
+        /// </summary>
+        /// <param name="name">The new name.</param>
+        /// <returns>The current light.</returns>
+        public async Task<IHueLight> RenameAsync(string name)
+        {
+            Requires.NotNullOrWhiteSpace(name, nameof(name));
+
+            var request = new RestRequest($"lights/{this.Id}");
+            request.AddJsonBody(new HueLightContract()
+            {
+                Name = name,
+            });
+
+            var response = await Client.CreateRestClientForBridge(this._bridge)
+                .ExecuteAsync(request, Method.PUT)
+                .ConfigureAwait(false);
+
+            if (response.IsSuccessful == false)
+            {
+                throw new Exception($"There was an error renaming the light from {this.Name} to {name}.");
+            }
+
+            this.Name = name;
+            return this;
+        }
+
+
+        /// <summary>
+        /// Renames the current light.
+        /// </summary>
+        /// <param name="name">The new name.</param>
+        /// <returns>The current light.</returns>
+        public IHueLight Rename(string name)
+            => this.RenameAsync(name).Result;
 
         /// <summary>
         /// Asynchronously gets the current state of the light.

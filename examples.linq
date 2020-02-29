@@ -8,11 +8,23 @@ private const string hueUser = "aIKNGKPClUjBOD0hXlwlnPQXDu7fKNhKtavcUtCc";
 
 async Task Main()
 {
+	// Initiate a search for new lights
+	//HueBridgeLocator.SelectFirst()
+	//	.WithUser(hueUser)
+	//	.DiscoverNewLights("598436");
+	
 	// Get all lights
 	HueBridgeLocator.SelectFirst()
 		.WithUser(hueUser)
 		.GetAllLights()
 		.Dump();
+	
+	// Rename light
+	//HueBridgeLocator.SelectFirst()
+	//	.WithUser(hueUser)
+	//	.SelectLight("Hue color lamp 1")
+	//	.Rename("Bedroom-Closet-Color")
+	//	.Dump();
 		
 	// Get all lights - async
 	var bridge = await HueBridgeLocator.SelectFirstAsync()
