@@ -110,7 +110,7 @@ namespace FluentHue.Tests
         [Test]
         public void Rename_NoUserSet()
         {
-            HueBridge bridge = CreateMockBridge();
+            var bridge = CreateMockBridge();
             var light = this.CreateMockLight(bridge);
 
             Assert.Multiple(() =>
@@ -181,7 +181,7 @@ namespace FluentHue.Tests
         [Test]
         public void GetCurrentState_NoUserSet()
         {
-            HueBridge bridge = CreateMockBridge();
+            var bridge = CreateMockBridge();
             var light = this.CreateMockLight(bridge);
 
             Assert.Multiple(() =>
