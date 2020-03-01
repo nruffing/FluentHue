@@ -18,6 +18,16 @@ namespace FluentHue
         byte Brightness { get; }
 
         /// <summary>
+        /// Gets a value representing the color's x coordinate (using CIE xy color).
+        /// </summary>
+        float ColorX { get; }
+
+        /// <summary>
+        /// Gets a value representing the color's y coordinate (using CIE xy color).
+        /// </summary>
+        float ColorY { get; }
+
+        /// <summary>
         /// Asynchronously toggles the current state of the light (e.g. off to on).
         /// </summary>
         /// <returns>The current light state.</returns>

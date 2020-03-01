@@ -72,7 +72,6 @@
             return this;
         }
 
-
         /// <summary>
         /// Renames the current light.
         /// </summary>

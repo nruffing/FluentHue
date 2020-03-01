@@ -47,6 +47,25 @@
             return light;
         }
 
+        protected HueLightState CreateMockState(HueBridge bridge, HueLight light)
+        {
+            var state = new HueLightState(
+                bridge,
+                light,
+                new HueLightStateContract()
+                {
+                    IsOn = this.GetRandomBool(),
+                    Brightness = this.GetRandomByte(),
+                    Color = new float[]
+                    {
+                        GetRandomFloat(),
+                        GetRandomFloat()
+                    }
+                });
+            Assume.That(state != null);
+            return state;
+        }
+
         protected IMapper GetMapper()
             => Container.Instance.GetInstance<IMapper>();
     }
