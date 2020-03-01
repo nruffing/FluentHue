@@ -38,27 +38,27 @@ async Task Main()
 	// Select light
 	HueBridgeLocator.SelectFirst()
 		.WithUser(hueUser)
-		.SelectLight("Color-Bedroom")
+		.SelectLight("Bedroom-Color")
 		.Dump();
 
 	// Select light - async
 	var light = await bridge
 		.WithUser(hueUser)
-		.SelectLightAsync("Color-Bedroom")
+		.SelectLightAsync("Bedroom-Color")
 		.ConfigureAwait(false);
 	light.Dump();
 
 	// Get light state
 	HueBridgeLocator.SelectFirst()
 		.WithUser(hueUser)
-		.SelectLight("Bedroom-Closet")
+		.SelectLight("Bedroom-Closet-Color")
 		.GetCurrentState()
 		.Dump();
 
 	// Get light state - async
 	light = await bridge
 		.WithUser(hueUser)
-		.SelectLightAsync("Color-Bedroom")
+		.SelectLightAsync("Bedroom-Color")
 		.ConfigureAwait(false);
 	var state = await light.GetCurrentStateAsync()
 		.ConfigureAwait(false);
@@ -67,22 +67,22 @@ async Task Main()
 	// Toggle light state
 	HueBridgeLocator.SelectFirst()
 		.WithUser(hueUser)
-		.SelectLight("Color-Bedroom")
+		.SelectLight("Bedroom-Color")
 		.GetCurrentState()
 			.Toggle()
-			.SetBrightness(150)
-			.SetColor(1f, 1f)
+			.SetBrightness(180)
+			.SetColor(.3f, .25f)
 		.End()
 		.GetCurrentState()
 		.Dump();
 
 	HueBridgeLocator.SelectFirst()
 		.WithUser(hueUser)
-		.SelectLight("Bedroom-Closet")
+		.SelectLight("Bedroom-Closet-Color")
 		.GetCurrentState()
 			.Toggle()
-			.SetBrightness(150)
-			.SetColor(.5f, .5f)
+			.SetBrightness(180)
+			.SetColor(.3f, .25f)
 		.End()
 		.GetCurrentState()
 		.Dump();
