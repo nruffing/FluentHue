@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace FluentHue.Contracts
+﻿namespace FluentHue.Contracts
 {
+    using Newtonsoft.Json;
+
     /// <summary>
     /// Model containing the contract for initiating a search for new Hue lights.
     /// </summary>

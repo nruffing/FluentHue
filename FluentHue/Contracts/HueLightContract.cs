@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace FluentHue.Contracts
+﻿namespace FluentHue.Contracts
 {
+    using Newtonsoft.Json;
+
     /// <summary>
     /// Model containing metadata for a Philips Hue light bulb.
     /// </summary>

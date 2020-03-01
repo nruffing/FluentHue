@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-
-namespace FluentHue
+﻿namespace FluentHue
 {
+    using System.Threading.Tasks;
+    
     /// <summary>
     /// Represents a Philips Hue light bulb.
     /// </summary>

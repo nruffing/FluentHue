@@ -1,11 +1,11 @@
-﻿using FluentHue.Contracts;
-using FluentHue.Serializers;
-using NUnit.Framework;
-using RestSharp;
-using RestSharp.Serialization;
-
-namespace FluentHue.Tests.Contracts
+﻿namespace FluentHue.Tests.Contracts
 {
+    using FluentHue.Contracts;
+    using FluentHue.Serializers;
+    using NUnit.Framework;
+    using RestSharp;
+    using RestSharp.Serialization;
+
     public sealed class HueLightStateContractTests : TestBase
     {
         [Test]
