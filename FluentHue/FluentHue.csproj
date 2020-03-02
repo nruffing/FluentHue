@@ -4,6 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Nicholas Ruffing</Authors>
     <Description>Fluent interface for making REST API calls to a Philips Hue Bridge. Almost all functionality has both synchronous and asynchronous support. This is a work in progress which currently supports the ability to set, toggle, and retrieve the current state of a light which currently includes whether the light is on or off, the light's brightness, and the light's color (if supported) as well as renaming a light and initiate the Hue bridge to search for new lights with or without looking for specific serial numbers</Description>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/nruffing/FluentHue</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/nruffing/FluentHue</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +15,13 @@
     <PackageReference Include="RestSharp" Version="106.10.1" />
     <PackageReference Include="SimpleInjector" Version="4.9.0" />
     <PackageReference Include="Validation" Version="2.4.22" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
